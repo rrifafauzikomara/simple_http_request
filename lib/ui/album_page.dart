@@ -1,45 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:simple_http_request/common/result_state.dart';
 import 'package:simple_http_request/network/api/api_service.dart';
-import 'package:simple_http_request/network/model/album.dart';
+import 'package:simple_http_request/provider/album_provider.dart';
 
-class AlbumPage extends StatefulWidget {
-  @override
-  _AlbumPageState createState() => _AlbumPageState();
-}
-
-class _AlbumPageState extends State<AlbumPage> {
-  final ApiService _apiService = ApiService();
-  Future<Album> _futureAlbum;
-
-  @override
-  void initState() {
-    super.initState();
-    _futureAlbum = _apiService.fetchAlbum();
-  }
-
+class AlbumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Fetch Data Example'),
-      ),
-      body: Center(
-        child: FutureBuilder<Album>(
-          future: _futureAlbum,
-          builder: (context, snapshot) {
-            var state = snapshot.connectionState;
-            if (state != ConnectionState.done) {
-              return Center(child: CircularProgressIndicator());
-            } else {
-              if (snapshot.hasData) {
-                return Text(snapshot.data.title);
-              } else if (snapshot.hasError) {
-                return Text("${snapshot.error}");
+    return ChangeNotifierProvider(
+      create: (_) => AlbumProvider(apiService: ApiService()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Fetch Data Example'),
+        ),
+        body: Center(
+          child: Consumer<AlbumProvider>(
+            builder: (context, state, _) {
+              if (state.state == ResultState.Loading) {
+                return CircularProgressIndicator();
+              } else if (state.state == ResultState.HasData) {
+                return Text(state.result.title);
+              } else if (state.state == ResultState.NoData) {
+                return Text(state.message);
+              } else if (state.state == ResultState.Error) {
+                return Text(state.message);
               } else {
-                return Text('');
+                return Center(child: Text(''));
               }
-            }
-          },
+            },
+          ),
         ),
       ),
     );
