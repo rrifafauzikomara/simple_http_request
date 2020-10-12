@@ -11,7 +11,7 @@ class AlbumPage extends StatelessWidget {
         title: Text('Fetch Data Example'),
       ),
       body: Center(
-        child: BlocBuilder<AlbumBloc, ResultState>(
+        child: BlocBuilder<AlbumBloc, AlbumState>(
           builder: (context, state) {
             if (state is HasData) {
               return Text(state.data.title);

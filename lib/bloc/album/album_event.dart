@@ -1,10 +1,10 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ResultEvent extends Equatable {
-  const ResultEvent();
+abstract class AlbumEvent extends Equatable {
+  const AlbumEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class LoadData extends ResultEvent {}
+class LoadData extends AlbumEvent {}

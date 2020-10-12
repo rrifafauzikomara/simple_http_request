@@ -2,21 +2,21 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:simple_http_request/network/model/album.dart';
 
-abstract class ResultState extends Equatable {
-  const ResultState();
+abstract class AlbumState extends Equatable {
+  const AlbumState();
 }
 
-class Initial extends ResultState {
+class Initial extends AlbumState {
   @override
   List<Object> get props => [];
 }
 
-class Loading extends ResultState {
+class Loading extends AlbumState {
   @override
   List<Object> get props => [];
 }
 
-class NoData extends ResultState {
+class NoData extends AlbumState {
   final String message;
 
   NoData({@required this.message});
@@ -25,7 +25,7 @@ class NoData extends ResultState {
   List<Object> get props => [message];
 }
 
-class HasData extends ResultState {
+class HasData extends AlbumState {
   final Album data;
 
   HasData({@required this.data});
@@ -34,7 +34,7 @@ class HasData extends ResultState {
   List<Object> get props => [data];
 }
 
-class NoInternetConnection extends ResultState {
+class NoInternetConnection extends AlbumState {
   final String message;
 
   NoInternetConnection({@required this.message});
@@ -43,7 +43,7 @@ class NoInternetConnection extends ResultState {
   List<Object> get props => [message];
 }
 
-class Error extends ResultState {
+class Error extends AlbumState {
   final String message;
 
   Error({@required this.message});

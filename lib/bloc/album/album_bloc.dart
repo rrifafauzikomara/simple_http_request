@@ -3,24 +3,22 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:simple_http_request/bloc/album/bloc.dart';
 import 'package:simple_http_request/network/api/api_service.dart';
 
-import 'album_event.dart';
-import 'album_state.dart';
-
-class AlbumBloc extends Bloc<ResultEvent, ResultState> {
+class AlbumBloc extends Bloc<AlbumEvent, AlbumState> {
   final ApiService apiService;
 
   AlbumBloc({@required this.apiService}) : super(Initial());
 
   @override
-  Stream<ResultState> mapEventToState(ResultEvent event) async* {
+  Stream<AlbumState> mapEventToState(AlbumEvent event) async* {
     if (event is LoadData) {
       yield* _loadArticle();
     }
   }
 
-  Stream<ResultState> _loadArticle() async* {
+  Stream<AlbumState> _loadArticle() async* {
     try {
       yield Loading();
       var album = await apiService.fetchAlbum();
